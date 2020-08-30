@@ -9,7 +9,7 @@ public class Note {
     private Long id;
 
     @Lob
-    private String notes;
+    private String description;
 
     @OneToOne
     private Recipe recipe;
@@ -22,12 +22,12 @@ public class Note {
         this.id = id;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getDescription() {
+        return description;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Recipe getRecipe() {

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Recipe App</title>
+</head>
+<body>
+    <h1>My Recipes</h1>
+
+    <table th:each="recipe : ${recipes}">
+        <thead>
+            <tr>
+                <td>Tag</td>
+                <td>Value</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>ID: </td>
+                <td th:text="${recipe.id}">0</td>
+            </tr>
+            <tr>
+                <td>Category:</td>
+                <td>
+                    <p th:each="category:${recipe.categories}"
+                       th:text="${category.description}">Des</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Difficulty:</td>
+                <td th:text="${recipe.difficulty.toString()}">Diff</td>
+            </tr>
+
+            <tr>
+                <td>PrepTime:</td>
+                <td th:text="${recipe.prepTime + 'minutes'}">PrepTime</td>
+            </tr>
+
+            <tr>
+                <td>CookTime:</td>
+                <td th:text="${recipe.cookTime + 'minutes'}">CookTime</td>
+            </tr>
+
+            <tr>
+                <td>Servings:</td>
+                <td th:text="${recipe.servings}">Serv</td>
+            </tr>
+
+            <tr>
+                <td>Source:</td>
+                <td th:text="${recipe.source}">Source</td>
+            </tr>
+
+            <tr>
+                <td>URL:</td>
+                <td th:text="${recipe.url}">URL</td>
+            </tr>
+
+            <tr>
+                <td>Description:</td>
+                <td th:text="${recipe.description}">Desc</td>
+            </tr>
+
+            <tr>
+                <td>Notes:</td>
+                <td th:text="${recipe.notes}">Notes</td>
+            </tr>
+
+            <tr>
+                <td>Ingredients:</td>
+                <td th:each="ingredient:${recipe.ingredients}"
+                    th:text="${ingredient.id+
+                ''+ingredient.amount+''+ingredient.oum.description
+                +''+ingredient.description}">Ingredient</td>
+            </tr>
+
+            <tr>
+                <td>Directions:</td>
+                <td th:text="${recipe.directions}">Directions</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
