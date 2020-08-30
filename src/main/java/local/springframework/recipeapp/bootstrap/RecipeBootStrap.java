@@ -8,7 +8,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEvent> {
@@ -89,46 +91,23 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
 
         Note guacamoleNote = new Note();
         guacamoleNote.setDescription("Be careful handling chiles if using. Wash your hands thoroughly after handling and do not touch your eyes or the area near your eyes with your hands for several hours.");
-        guacamoleNote.setRecipe(guacamole);
         guacamole.setNotes(guacamoleNote);
 
-        Set<Ingredient> guacamoleIngredients = new HashSet<>();
-        Ingredient i1 = new Ingredient();
-        i1.setRecipe(guacamole);
-        i1.setAmount(2d);
-        i1.setOum(unit);
-        i1.setDescription("ripe avocados");
-        guacamoleIngredients.add(i1);
+        Ingredient i1 = new Ingredient("ripe avocados", 2d, unit);
+        guacamole = guacamole.addIngredient(i1);
 
-        Ingredient i2 = new Ingredient();
-        i2.setRecipe(guacamole);
-        i2.setAmount(0.25);
-        i2.setOum(teaspoon);
-        i2.setDescription("salt, more to taste");
-        guacamoleIngredients.add(i2);
+        Ingredient i2 = new Ingredient("salt, more to taste", 0.25, teaspoon);
+        guacamole = guacamole.addIngredient(i2);
 
-        Ingredient i3 = new Ingredient();
-        i3.setRecipe(guacamole);
-        i3.setAmount(1d);
-        i3.setOum(tablespoon);
-        i3.setDescription("fresh lime juice or lemon juice");
-        guacamoleIngredients.add(i3);
+        Ingredient i3 = new Ingredient("fresh lime juice or lemon juice", 1d, tablespoon);
+        guacamole = guacamole.addIngredient(i3);
 
-        Ingredient i4 = new Ingredient();
-        i4.setRecipe(guacamole);
-        i4.setAmount(0.25);
-        i4.setOum(cup);
-        i4.setDescription("minced red onion or thinly sliced green onion");
-        guacamoleIngredients.add(i4);
+        Ingredient i4 = new Ingredient("minced red onion or thinly sliced green onion", 0.25, cup);
+        guacamole = guacamole.addIngredient(i4);
 
-        Ingredient i5 = new Ingredient();
-        i5.setRecipe(guacamole);
-        i5.setAmount(2d);
-        i5.setOum(unit);
-        i5.setDescription("serrano chiles, stems and seeds removed, minced");
-        guacamoleIngredients.add(i5);
+        Ingredient i5 = new Ingredient("serrano chiles, stems and seeds removed, minced", 2d, unit);
+        guacamole = guacamole.addIngredient(i5);
 
-        guacamole.setIngredients(guacamoleIngredients);
         guacamole.setDirections("1 Cut the avocado, remove flesh: Cut the avocados in half. Remove the pit. Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon. (See How to Cut and Peel an Avocado.) Place in a bowl." +
                 "\n" +
                 "2 Mash with a fork: Using a fork, roughly mash the avocado. (Don't overdo it! The guacamole should be a little chunky.)" +
@@ -159,40 +138,37 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
 
         Note tacosNote = new Note();
         tacosNote.setDescription("Look for ancho chile powder with the Mexican ingredients at your grocery store, on buy it online. (If you can't find ancho chili powder, you replace the ancho chili, the oregano, and the cumin with 2 1/2 tablespoons regular chili powder, though the flavor won't be quite the same.)");
-        tacosNote.setRecipe(tacos);
         tacos.setNotes(tacosNote);
 
-        Set<Ingredient> tacosIngredients = new HashSet<>();
-        Ingredient ti1 = new Ingredient("ancho chili powder", 2d, tablespoon, tacos);
-        tacosIngredients.add(ti1);
+        Ingredient ti1 = new Ingredient("ancho chili powder", 2d, tablespoon);
+        tacos = tacos.addIngredient(ti1);
 
-        Ingredient ti2 = new Ingredient("dried oregano", 1d, teaspoon, tacos);
-        tacosIngredients.add(ti2);
+        Ingredient ti2 = new Ingredient("dried oregano", 1d, teaspoon);
+        tacos = tacos.addIngredient(ti2);
 
-        Ingredient ti3 = new Ingredient("dried cumin", 1d, teaspoon,tacos);
-        tacosIngredients.add(ti3);
+        Ingredient ti3 = new Ingredient("dried cumin", 1d, teaspoon);
+        tacos = tacos.addIngredient(ti3);
 
-        Ingredient ti4 = new Ingredient("sugar", 1d, teaspoon,tacos);
-        tacosIngredients.add(ti4);
+        Ingredient ti4 = new Ingredient("sugar", 1d, teaspoon);
+        tacos = tacos.addIngredient(ti4);
 
-        Ingredient ti5 = new Ingredient("salt", 1d, teaspoon,tacos);
-        tacosIngredients.add(ti5);
+        Ingredient ti5 = new Ingredient("salt", 1d, teaspoon);
+        tacos = tacos.addIngredient(ti5);
 
-        Ingredient ti6 = new Ingredient("garlic, finely chopped", 1d, clave,tacos);
-        tacosIngredients.add(ti6);
+        Ingredient ti6 = new Ingredient("garlic, finely chopped", 1d, clave);
+        tacos = tacos.addIngredient(ti6);
 
-        Ingredient ti7 = new Ingredient("finely grated orange zest", 1d, tablespoon,tacos);
-        tacosIngredients.add(ti7);
+        Ingredient ti7 = new Ingredient("finely grated orange zest", 1d, tablespoon);
+        tacos = tacos.addIngredient(ti7);
 
-        Ingredient ti8 = new Ingredient("fresh-squeezed orange juice", 3d, tablespoon,tacos);
-        tacosIngredients.add(ti8);
+        Ingredient ti8 = new Ingredient("fresh-squeezed orange juice", 3d, tablespoon);
+        tacos = tacos.addIngredient(ti8);
 
-        Ingredient ti9 = new Ingredient("olive oil", 2d, tablespoon,tacos);
-        tacosIngredients.add(ti9);
+        Ingredient ti9 = new Ingredient("olive oil", 2d, tablespoon);
+        tacos = tacos.addIngredient(ti9);
 
-        Ingredient ti10 = new Ingredient("skinless, boneless chicken thighs (1 1/4 pounds)", 6d, unit,tacos);
-        tacosIngredients.add(ti7);
-        tacos.setIngredients(tacosIngredients);
+        Ingredient ti10 = new Ingredient("skinless, boneless chicken thighs (1 1/4 pounds)", 6d, unit);
+        tacos = tacos.addIngredient(ti10);
 
         tacos.setDirections("1 Prepare a gas or charcoal grill for medium-high, direct heat." +
                         "\n" +
