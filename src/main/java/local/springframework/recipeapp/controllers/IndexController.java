@@ -1,6 +1,7 @@
 package local.springframework.recipeapp.controllers;
 
 import local.springframework.recipeapp.model.Category;
+import local.springframework.recipeapp.model.Recipe;
 import local.springframework.recipeapp.model.UnitOfMeasure;
 import local.springframework.recipeapp.repositories.CategoryRepository;
 import local.springframework.recipeapp.repositories.RecipeRepository;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 public class IndexController {
@@ -27,9 +30,12 @@ public class IndexController {
     public String getIndexPage(Model model){
         Optional<Category> categoryOptional = categoryRepository.findByDescription("American");
         Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("tablespoon");
+        Set<Recipe> recipeSet = new HashSet<>();
+        recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
 
         System.out.println("Category id is: " + (categoryOptional.isPresent() ? categoryOptional.get().getId() : "Cat not found"));
         System.out.println("Unit of Measure id is: " + (unitOfMeasureOptional.isPresent() ? unitOfMeasureOptional.get().getId() : "Unit not found"));
+        System.out.println("Loaded recipes: " + recipeSet.size());
 
         model.addAttribute("recipes", recipeRepository.findAll());
         return "index";
