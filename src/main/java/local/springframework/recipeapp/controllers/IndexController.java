@@ -3,29 +3,35 @@ package local.springframework.recipeapp.controllers;
 import local.springframework.recipeapp.model.Category;
 import local.springframework.recipeapp.model.UnitOfMeasure;
 import local.springframework.recipeapp.repositories.CategoryRepository;
+import local.springframework.recipeapp.repositories.RecipeRepository;
 import local.springframework.recipeapp.repositories.UnitOfMeasureRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
 
 @Controller
 public class IndexController {
-    private CategoryRepository categoryRepository;
-    private UnitOfMeasureRepository unitOfMeasureRepository;
+    private final CategoryRepository categoryRepository;
+    private final UnitOfMeasureRepository unitOfMeasureRepository;
+    private final RecipeRepository recipeRepository;
 
-    public IndexController(CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
+    public IndexController(CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository, RecipeRepository recipeRepository) {
         this.categoryRepository = categoryRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
+        this.recipeRepository = recipeRepository;
     }
 
     @RequestMapping({"", "/", "/index", "/index.html"})
-    public String getIndexPage(){
+    public String getIndexPage(Model model){
         Optional<Category> categoryOptional = categoryRepository.findByDescription("American");
-        Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Tablespoon");
+        Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("tablespoon");
 
         System.out.println("Category id is: " + (categoryOptional.isPresent() ? categoryOptional.get().getId() : "Cat not found"));
         System.out.println("Unit of Measure id is: " + (unitOfMeasureOptional.isPresent() ? unitOfMeasureOptional.get().getId() : "Unit not found"));
+
+        model.addAttribute("recipes", recipeRepository.findAll());
         return "index";
     }
 

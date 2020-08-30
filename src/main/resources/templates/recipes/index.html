@@ -35,12 +35,12 @@
 
             <tr>
                 <td>PrepTime:</td>
-                <td th:text="${recipe.prepTime + 'minutes'}">PrepTime</td>
+                <td th:text="${recipe.prepTime + ' ' + 'minutes'}">PrepTime</td>
             </tr>
 
             <tr>
                 <td>CookTime:</td>
-                <td th:text="${recipe.cookTime + 'minutes'}">CookTime</td>
+                <td th:text="${recipe.cookTime + ' ' + 'minutes'}">CookTime</td>
             </tr>
 
             <tr>
@@ -65,15 +65,19 @@
 
             <tr>
                 <td>Notes:</td>
-                <td th:text="${recipe.notes}">Notes</td>
+                <td th:text="${recipe.notes.description}">Notes</td>
             </tr>
 
             <tr>
                 <td>Ingredients:</td>
-                <td th:each="ingredient:${recipe.ingredients}"
+                <!--<td th:each="ingredient:${recipe.ingredients}"
                     th:text="${ingredient.id+
                 ''+ingredient.amount+''+ingredient.oum.description
-                +''+ingredient.description}">Ingredient</td>
+                +''+ingredient.description}">Ingredient</td>-->
+                <td>
+                    <p th:each="ing:${recipe.ingredients}"
+                       th:text="${ing.amount + ' ' + ing.oum.description + ' ' + ing.description}">Des</p>
+                </td>
             </tr>
 
             <tr>
@@ -81,6 +85,11 @@
                 <td th:text="${recipe.directions}">Directions</td>
             </tr>
         </tbody>
+        <br>
+        <br>
+        <br>
     </table>
+
+
 </body>
 </html>

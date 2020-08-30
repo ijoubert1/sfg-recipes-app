@@ -18,6 +18,10 @@ public class RecipeServiceImpl implements RecipeService {
     public Set<Recipe> getRecipes() {
         Set<Recipe> recipeSet = new HashSet<>();
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
+        for(Recipe r : recipeSet){
+            System.out.println("SIZE: " + r.getIngredients().size());
+        }
+
         return recipeSet;
     }
 }
