@@ -6,6 +6,7 @@ import local.springframework.recipeapp.model.UnitOfMeasure;
 import local.springframework.recipeapp.repositories.CategoryRepository;
 import local.springframework.recipeapp.repositories.RecipeRepository;
 import local.springframework.recipeapp.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+@Slf4j
 @Controller
 public class IndexController {
     private final CategoryRepository categoryRepository;
@@ -33,9 +35,9 @@ public class IndexController {
         Set<Recipe> recipeSet = new HashSet<>();
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
 
-        System.out.println("Category id is: " + (categoryOptional.isPresent() ? categoryOptional.get().getId() : "Cat not found"));
-        System.out.println("Unit of Measure id is: " + (unitOfMeasureOptional.isPresent() ? unitOfMeasureOptional.get().getId() : "Unit not found"));
-        System.out.println("Loaded recipes: " + recipeSet.size());
+        log.info("Category id is: " + (categoryOptional.isPresent()  ? categoryOptional.get().getId() : "Cat not found"));
+        log.info("Unit of Measure id is: " + (unitOfMeasureOptional.isPresent() ? unitOfMeasureOptional.get().getId() : "Unit not found"));
+        log.info("Loaded recipes: " + recipeSet.size());
 
         model.addAttribute("recipes", recipeRepository.findAll());
         return "index";

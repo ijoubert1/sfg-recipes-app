@@ -4,6 +4,7 @@ import local.springframework.recipeapp.model.*;
 import local.springframework.recipeapp.repositories.CategoryRepository;
 import local.springframework.recipeapp.repositories.RecipeRepository;
 import local.springframework.recipeapp.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -123,7 +125,7 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
                 "4 Serve: Serve immediately, or if making a few hours ahead, place plastic wrap on the surface of the guacamole and press down to cover it and to prevent air reaching it. (The oxygen in the air causes oxidation which will turn the guacamole brown.) Refrigerate until ready to serve.");
 
         recipeRepository.save(guacamole);
-        System.out.println("Loaded Guacamole recipe");
+        log.info("Loaded Guacamole recipe");
 
         Recipe tacos = new Recipe();
         tacos.getCategories().add(mexican);
@@ -185,7 +187,7 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
                         "5 Assemble the tacos: Slice the chicken into strips. On each tortilla, place a small handful of arugula. Top with chicken slices, sliced avocado, radishes, tomatoes, and onion slices. Drizzle with the thinned sour cream. Serve with lime wedges.");
 
         recipeRepository.save(tacos);
-        System.out.println("Loaded Tacos recipe");
+        log.info("Loaded Tacos recipe");
 
         recipes = (List<Recipe>) recipeRepository.findAll();
         return recipes;
