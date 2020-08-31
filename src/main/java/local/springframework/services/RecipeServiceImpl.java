@@ -1,7 +1,7 @@
-package local.springframework.recipeapp.services;
+package local.springframework.services;
 
-import local.springframework.recipeapp.model.Recipe;
-import local.springframework.recipeapp.repositories.RecipeRepository;
+import local.springframework.model.Recipe;
+import local.springframework.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

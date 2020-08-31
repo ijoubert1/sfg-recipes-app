@@ -1,6 +1,7 @@
-package local.springframework.recipeapp.repositories;
+package local.springframework.repositories;
 
-import local.springframework.recipeapp.model.UnitOfMeasure;
+import local.springframework.model.UnitOfMeasure;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class UnitOfMeasureRepositoryIT {
@@ -25,12 +27,14 @@ public class UnitOfMeasureRepositoryIT {
 
     @Test
     public void findByDescription() {
+        log.info("testing findByDescription");
         Optional<UnitOfMeasure> unitOfMeasureOptional = repository.findByDescription("teaspoon");
         assertEquals("teaspoon", unitOfMeasureOptional.get().getDescription());
     }
 
     @Test
     public void findByDescriptionCup() {
+        log.info("testing findByDescriptionCup");
         Optional<UnitOfMeasure> unitOfMeasureOptional = repository.findByDescription("cup");
         assertEquals("cup", unitOfMeasureOptional.get().getDescription());
     }

@@ -1,11 +1,14 @@
-package local.springframework.recipeapp.services;
+package local.springframework.services;
 
-import local.springframework.recipeapp.model.Recipe;
-import local.springframework.recipeapp.repositories.RecipeRepository;
+import local.springframework.model.Recipe;
+import local.springframework.repositories.RecipeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +16,8 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+@Slf4j
+@RunWith(SpringRunner.class)
 public class RecipeServiceImplTest {
 
     RecipeServiceImpl recipeService;
@@ -28,6 +33,7 @@ public class RecipeServiceImplTest {
 
     @Test
     public void getRecipes() {
+        log.info("testing getRecipes");
         Recipe recipe = new Recipe();
         HashSet recipesData = new HashSet<>();
         recipesData.add(recipe);

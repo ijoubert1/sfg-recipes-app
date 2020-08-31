@@ -1,6 +1,7 @@
-package local.springframework.recipeapp.model;
+package local.springframework.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.HashSet;

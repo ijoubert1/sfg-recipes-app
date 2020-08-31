@@ -1,9 +1,9 @@
-package local.springframework.recipeapp.bootstrap;
+package local.springframework.bootstrap;
 
-import local.springframework.recipeapp.model.*;
-import local.springframework.recipeapp.repositories.CategoryRepository;
-import local.springframework.recipeapp.repositories.RecipeRepository;
-import local.springframework.recipeapp.repositories.UnitOfMeasureRepository;
+import local.springframework.model.*;
+import local.springframework.repositories.CategoryRepository;
+import local.springframework.repositories.RecipeRepository;
+import local.springframework.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

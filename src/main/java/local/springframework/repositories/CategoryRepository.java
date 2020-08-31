@@ -1,6 +1,6 @@
-package local.springframework.recipeapp.repositories;
+package local.springframework.repositories;
 
-import local.springframework.recipeapp.model.Category;
+import local.springframework.model.Category;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

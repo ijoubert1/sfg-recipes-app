@@ -1,4 +1,4 @@
-package local.springframework.recipeapp.model;
+package local.springframework.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
