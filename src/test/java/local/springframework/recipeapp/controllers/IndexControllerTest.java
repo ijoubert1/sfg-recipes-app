@@ -2,11 +2,13 @@ package local.springframework.recipeapp.controllers;
 
 import local.springframework.recipeapp.model.Recipe;
 import local.springframework.recipeapp.services.RecipeService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
@@ -21,7 +23,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-class IndexControllerTest {
+@RunWith(SpringRunner.class)
+public class IndexControllerTest {
 
     IndexController indexController;
     @Mock
@@ -30,14 +33,14 @@ class IndexControllerTest {
     @Mock
     Model model;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         indexController = new IndexController(recipeService);
     }
 
     @Test
-    void getIndexPage() {
+    public void getIndexPage() {
         //given
         Set<Recipe> recipes = new HashSet<>();
         Recipe recipe1 = new Recipe();
