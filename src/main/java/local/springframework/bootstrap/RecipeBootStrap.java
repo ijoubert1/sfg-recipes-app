@@ -87,7 +87,7 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
         guacamole.setDescription("The best guacamole keeps it simple: just ripe avocados, salt, a squeeze of lime, onions, chiles, cilantro, and some chopped tomato. Serve it as a dip at your next party or spoon it on top of tacos for an easy dinner upgrade.");
         guacamole.setPrepTime(10);
         guacamole.setCookTime(15);
-        guacamole.setSource("Unkown");
+        guacamole.setSource("Unknown");
         guacamole.setServings(4);
         guacamole.setUrl("https://www.simplyrecipes.com/recipes/perfect_guacamole/");
 
@@ -134,7 +134,7 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
         tacos.setDescription("Spicy grilled chicken tacos! Quick marinade, then grill. Ready in about 30 minutes. Great for a quick weeknight dinner, backyard cookouts, and tailgate parties.");
         tacos.setPrepTime(20);
         tacos.setCookTime(15);
-        tacos.setSource("Unknow");
+        tacos.setSource("Unknown");
         tacos.setServings(6);
         tacos.setUrl("https://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
 
