@@ -4,6 +4,7 @@ import local.springframework.commands.CategoryCommand;
 import local.springframework.converters.CategoryCommandToCategory;
 import local.springframework.converters.CategoryToCategoryCommand;
 import local.springframework.model.Category;
+import local.springframework.model.Recipe;
 import local.springframework.repositories.CategoryRepository;
 import local.springframework.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +19,13 @@ import java.util.Set;
 public class CategoryServiceImpl implements CategoryService {
     final CategoryCommandToCategory categoryCommandToCategory;
     final CategoryToCategoryCommand categoryToCategoryCommand;
-    final CategoryRepository repository;
+    final CategoryRepository categoryRepository;
     final RecipeRepository recipeRepository;
 
-    public CategoryServiceImpl(CategoryCommandToCategory categoryCommandToCategory, CategoryToCategoryCommand categoryToCategoryCommand, CategoryRepository repository, RecipeRepository recipeRepository) {
+    public CategoryServiceImpl(CategoryCommandToCategory categoryCommandToCategory, CategoryToCategoryCommand categoryToCategoryCommand, CategoryRepository categoryRepository, RecipeRepository recipeRepository) {
         this.categoryCommandToCategory = categoryCommandToCategory;
         this.categoryToCategoryCommand = categoryToCategoryCommand;
-        this.repository = repository;
+        this.categoryRepository = categoryRepository;
         this.recipeRepository = recipeRepository;
     }
 
@@ -32,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryCommand createCategory(CategoryCommand categoryCommand) {
         log.info("Creating new category");
         Category convertedCategory = categoryCommandToCategory.convert(categoryCommand);
-        Category savedCategory = repository.save(convertedCategory);
+        Category savedCategory = categoryRepository.save(convertedCategory);
         if(savedCategory == null || savedCategory.getId() == null){
             throw new RuntimeException("Error creating category");
         }
@@ -46,13 +47,13 @@ public class CategoryServiceImpl implements CategoryService {
             return null;
         }
 
-        return repository.findById(Long.parseLong(id)).orElse(null);
+        return categoryRepository.findById(Long.parseLong(id)).orElse(null);
     }
 
     @Override
     public Set<Category> findAll(){
         Set<Category> categories = new HashSet<>();
-        repository.findAll().iterator().forEachRemaining(categories::add);
+        categoryRepository.findAll().iterator().forEachRemaining(categories::add);
         return categories;
     }
 
@@ -62,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw new RuntimeException("Invalid input category");
         }
 
-        Optional<Category> existingCategory = repository.findById(Long.parseLong(categoryCommand.getId()));
+        Optional<Category> existingCategory = categoryRepository.findById(Long.parseLong(categoryCommand.getId()));
         if(!existingCategory.isPresent()){
             throw new RuntimeException("Invalid Category");
         }
@@ -70,7 +71,7 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryCommandToCategory categoryCommandToCategory = new CategoryCommandToCategory();
         Category cat = categoryCommandToCategory.convert(categoryCommand);
 
-        Category saved = repository.save(cat);
+        Category saved = categoryRepository.save(cat);
         if(saved == null){
             throw new RuntimeException("Category not saved");
         }
@@ -83,12 +84,42 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Set<Category> deleteCategoryById(String id){
-        Set<Category> remainingCategories = new HashSet<>();
+        Optional<Category> foundCatOpt = categoryRepository.findById(Long.parseLong(id));
+        Set<Recipe> recipesByCat = new HashSet<>();
+        Set<Category> remainingCat = new HashSet<>();
+        Set<Recipe> updatedRecipes = new HashSet<>();
+        if(foundCatOpt.isPresent()){
+            Category foundCat = foundCatOpt.get();
+            recipesByCat = foundCat.getRecipes();
+            for(Recipe r : recipesByCat){
+                Optional<Recipe> foundROpt = recipeRepository.findById(r.getId());
+                if(foundROpt.isPresent()){
+                    Recipe foundR = foundROpt.get();
 
+                    //Removing category from Recipe
+                    boolean isRemoved = foundR.getCategories().remove(foundCat);
+                    if(isRemoved){
+                        //Updating Recipe
+                        Recipe updatedRecipe = recipeRepository.save(foundR);
+                        updatedRecipes.add(updatedRecipe);
+                    } else {
+                        throw new RuntimeException("Category: " + foundCat.getId() + " not removed from recipe: " + foundR.getId());
+                    }
+                } else {
+                    log.info("Recipe not found for Category: " + foundCat.getId());
+                }
+            }
 
+            //Removing all recipes from Category
+            //foundCat.getRecipes().removeAll(recipesByCat);
+            //categoryRepository.save(foundCat);
 
-        repository.deleteById(Long.parseLong(id));
-        repository.findAll().iterator().forEachRemaining(remainingCategories::add);
-        return remainingCategories;
+            //Removing Category
+            categoryRepository.deleteById(foundCat.getId());
+        } else {
+            throw new RuntimeException("Category not found");
+        }
+        categoryRepository.findAll().iterator().forEachRemaining(remainingCat::add);
+        return remainingCat;
     }
 }

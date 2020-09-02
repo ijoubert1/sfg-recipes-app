@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class CategoryController {
 
-    final CategoryService service;
+    private final CategoryService service;
 
     public CategoryController(CategoryService service) {
         this.service = service;
