@@ -1,6 +1,7 @@
 package local.springframework.controllers;
 
 import local.springframework.commands.CategoryCommand;
+import local.springframework.model.Category;
 import local.springframework.services.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -20,26 +21,42 @@ public class CategoryController {
         this.service = service;
     }
 
-    @RequestMapping("/categories/show/{id}")
+    @RequestMapping("/categories/{id}/show/")
     public String showById(@PathVariable String id, Model model){
         model.addAttribute("category", service.getCategoryById(id));
         return "categories/show";
     }
 
-    @PostMapping("categories")
-    public String createCategory(@ModelAttribute CategoryCommand command, Model model){
-        log.info("Entering category controller");
-
-        CategoryCommand savedCategoryCommand = service.createCategory(command);
-
-        model.addAttribute("category", savedCategoryCommand);
-        return "redirect:/categories/show/" + savedCategoryCommand.getId();
+    @RequestMapping({"/categories/new", "/categories/new/"})
+    public String newCategoryForm(Model model){
+        model.addAttribute("category", new CategoryCommand());
+        return "categories/categoryform";
     }
 
-    @RequestMapping("/categories/new")
-    public String newCategory(Model model){
-        model.addAttribute("category", new CategoryCommand());
+    @RequestMapping({"/categories", "/categories/"})
+    public String listCategories(Model model){
+        model.addAttribute("categories", service.findAll());
+        return "categories/index";
+    }
 
+    @RequestMapping({"/categories/{id}/update/", "/categories/{id}/update/"})
+    public String updateCategoryForm(@PathVariable String id, Model model){
+        model.addAttribute("category", service.getCategoryById(id));
         return "categories/categoryform";
+    }
+
+    @PostMapping("category")
+    public String createOrUpdateCategory(@ModelAttribute CategoryCommand command, Model model){
+        CategoryCommand savedCategoryCommand = null;
+        log.info("Entering category controller");
+        Category existing = service.getCategoryById(command.getId());
+        if(existing == null){
+            savedCategoryCommand = service.createCategory(command);
+        } else {
+            savedCategoryCommand = service.updateCategory(command);
+        }
+
+        model.addAttribute("category", savedCategoryCommand);
+        return "redirect:/categories/" + savedCategoryCommand.getId() + "/show/";
     }
 }

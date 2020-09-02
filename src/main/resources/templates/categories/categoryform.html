@@ -23,7 +23,7 @@
             <h2>New Category</h2>
         </div>
         <div>
-            <form th:object="${category}" th:action="@{/categories/}"  method="post">
+            <form th:object="${category}" th:action="@{/category/}"  method="post">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="form-group">
                     <label for="category">Description</label>

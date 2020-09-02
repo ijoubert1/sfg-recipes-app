@@ -8,6 +8,10 @@ import local.springframework.repositories.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
 @Slf4j
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -36,9 +40,41 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategoryById(String id) {
         if(id ==null || id.isEmpty()){
-            throw new RuntimeException("Invalid id");
+            return null;
         }
 
         return repository.findById(Long.parseLong(id)).orElse(null);
+    }
+
+    @Override
+    public Set<Category> findAll(){
+        Set<Category> categories = new HashSet<>();
+        repository.findAll().iterator().forEachRemaining(categories::add);
+        return categories;
+    }
+
+    @Override
+    public CategoryCommand updateCategory(CategoryCommand categoryCommand){
+        if(categoryCommand == null || categoryCommand.getId() == null || categoryCommand.getId().isEmpty()){
+            throw new RuntimeException("Invalid input category");
+        }
+
+        Optional<Category> existingCategory = repository.findById(Long.parseLong(categoryCommand.getId()));
+        if(!existingCategory.isPresent()){
+            throw new RuntimeException("Invalid Category");
+        }
+
+        CategoryCommandToCategory categoryCommandToCategory = new CategoryCommandToCategory();
+        Category cat = categoryCommandToCategory.convert(categoryCommand);
+
+        Category saved = repository.save(cat);
+        if(saved == null){
+            throw new RuntimeException("Category not saved");
+        }
+
+        CategoryToCategoryCommand categoryToCategoryCommand = new CategoryToCategoryCommand();
+        CategoryCommand command1 = categoryToCategoryCommand.convert(saved);
+
+        return command1;
     }
 }
