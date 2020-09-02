@@ -15,4 +15,6 @@ public interface CategoryService {
     public Set<Category> findAll();
 
     public CategoryCommand updateCategory(CategoryCommand categoryCommand);
+
+    public Set<Category> deleteCategoryById(String id);
 }

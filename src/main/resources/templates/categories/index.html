@@ -34,6 +34,7 @@
                                 <td>DESCRIPTION</td>
                                 <td>VIEW</td>
                                 <td>UPDATE</td>
+                                <td>DELETE</td>
                             </tr>
                             </thead>
                             <tr th:remove="all">
@@ -41,6 +42,7 @@
                                 <td>Desc0</td>
                                 <td><a href="#">View0</a></td>
                                 <td><a href="#">Update0</a></td>
+                                <td><a href="#">Delete0</a></td>
                             </tr>
                             <tr th:each="category : ${categories}">
                                 <!--/*@thymesVar id="categorry" type="local.springframework.model.Category"*/-->
@@ -48,6 +50,7 @@
                                 <td th:text="${category.description}">Desc1</td>
                                 <td><a href="#" th:href="@{'/categories/'+ ${category.id} + '/show/' }">View</a></td>
                                 <td><a href="#" th:href="@{'/categories/'+ ${category.id} + '/update/' }">Update</a></td>
+                                <td><a href="#" th:href="@{'/categories/'+ ${category.id} + '/delete/' }">Delete</a></td>
                             </tr>
                         </table>
                     </div>

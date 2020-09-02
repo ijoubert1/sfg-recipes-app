@@ -5,6 +5,7 @@ import local.springframework.converters.CategoryCommandToCategory;
 import local.springframework.converters.CategoryToCategoryCommand;
 import local.springframework.model.Category;
 import local.springframework.repositories.CategoryRepository;
+import local.springframework.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,13 @@ public class CategoryServiceImpl implements CategoryService {
     final CategoryCommandToCategory categoryCommandToCategory;
     final CategoryToCategoryCommand categoryToCategoryCommand;
     final CategoryRepository repository;
+    final RecipeRepository recipeRepository;
 
-    public CategoryServiceImpl(CategoryCommandToCategory categoryCommandToCategory, CategoryToCategoryCommand categoryToCategoryCommand, CategoryRepository repository) {
+    public CategoryServiceImpl(CategoryCommandToCategory categoryCommandToCategory, CategoryToCategoryCommand categoryToCategoryCommand, CategoryRepository repository, RecipeRepository recipeRepository) {
         this.categoryCommandToCategory = categoryCommandToCategory;
         this.categoryToCategoryCommand = categoryToCategoryCommand;
         this.repository = repository;
+        this.recipeRepository = recipeRepository;
     }
 
     @Override
@@ -76,5 +79,16 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryCommand command1 = categoryToCategoryCommand.convert(saved);
 
         return command1;
+    }
+
+    @Override
+    public Set<Category> deleteCategoryById(String id){
+        Set<Category> remainingCategories = new HashSet<>();
+
+
+
+        repository.deleteById(Long.parseLong(id));
+        repository.findAll().iterator().forEachRemaining(remainingCategories::add);
+        return remainingCategories;
     }
 }

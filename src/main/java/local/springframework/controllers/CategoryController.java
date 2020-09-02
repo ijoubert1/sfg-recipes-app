@@ -6,10 +6,7 @@ import local.springframework.services.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
@@ -21,28 +18,39 @@ public class CategoryController {
         this.service = service;
     }
 
-    @RequestMapping("/categories/{id}/show/")
-    public String showById(@PathVariable String id, Model model){
-        model.addAttribute("category", service.getCategoryById(id));
-        return "categories/show";
-    }
-
+    @GetMapping
     @RequestMapping({"/categories/new", "/categories/new/"})
     public String newCategoryForm(Model model){
         model.addAttribute("category", new CategoryCommand());
         return "categories/categoryform";
     }
 
+    @GetMapping
     @RequestMapping({"/categories", "/categories/"})
     public String listCategories(Model model){
         model.addAttribute("categories", service.findAll());
         return "categories/index";
     }
 
-    @RequestMapping({"/categories/{id}/update/", "/categories/{id}/update/"})
+    @GetMapping
+    @RequestMapping({"/categories/{id}/show", "/categories/{id}/show/"})
+    public String showById(@PathVariable String id, Model model){
+        model.addAttribute("category", service.getCategoryById(id));
+        return "categories/show";
+    }
+
+    @GetMapping
+    @RequestMapping({"/categories/{id}/update", "/categories/{id}/update/"})
     public String updateCategoryForm(@PathVariable String id, Model model){
         model.addAttribute("category", service.getCategoryById(id));
         return "categories/categoryform";
+    }
+
+    @GetMapping
+    @RequestMapping({"/categories/{id}/delete", "/categories/{id}/delete/"})
+    public String deleteCategory(@PathVariable String id, Model model){
+        model.addAttribute("categories", service.deleteCategoryById(id));
+        return "categories/index";
     }
 
     @PostMapping("category")
