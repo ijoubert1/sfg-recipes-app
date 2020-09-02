@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,6 +20,12 @@ public class CategoryController {
         this.service = service;
     }
 
+    @RequestMapping("/categories/show/{id}")
+    public String showById(@PathVariable String id, Model model){
+        model.addAttribute("category", service.getCategoryById(id));
+        return "categories/show";
+    }
+
     @PostMapping("categories")
     public String createCategory(@ModelAttribute CategoryCommand command, Model model){
         log.info("Entering category controller");
@@ -26,7 +33,7 @@ public class CategoryController {
         CategoryCommand savedCategoryCommand = service.createCategory(command);
 
         model.addAttribute("category", savedCategoryCommand);
-        return "categories/show";
+        return "redirect:/categories/show/" + savedCategoryCommand.getId();
     }
 
     @RequestMapping("/categories/new")

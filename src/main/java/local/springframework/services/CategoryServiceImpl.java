@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryCommand createCategory(CategoryCommand categoryCommand) {
-        log.info("Creating new category: " + categoryCommand);
+        log.info("Creating new category");
         Category convertedCategory = categoryCommandToCategory.convert(categoryCommand);
         Category savedCategory = repository.save(convertedCategory);
         if(savedCategory == null || savedCategory.getId() == null){
@@ -31,5 +31,14 @@ public class CategoryServiceImpl implements CategoryService {
         }
         log.info("New category id: " + savedCategory.getId());
         return categoryToCategoryCommand.convert(savedCategory);
+    }
+
+    @Override
+    public Category getCategoryById(String id) {
+        if(id ==null || id.isEmpty()){
+            throw new RuntimeException("Invalid id");
+        }
+
+        return repository.findById(Long.parseLong(id)).orElse(null);
     }
 }
